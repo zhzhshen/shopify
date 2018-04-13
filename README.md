@@ -1,5 +1,9 @@
 ## Shopify Tasking (BE: 875min/ FE: 690min/ Deploy: 210min)
 
+![model](_design/model.png)
+
+![architecture](_design/architecture.png)
+
 ### Scaffolding
 + backend 30min
 + micro fontend 4h
