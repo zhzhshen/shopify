@@ -1,0 +1,51 @@
+version: '3'
+services:
+    product-service:
+        restart: always
+        container_name: product-service
+        build:
+            context: ./product-service
+            dockerfile: deployment/Dockerfile
+        ports:
+            - 8081:8081
+        links:
+            - product-service-db
+            - eureka
+        depends_on:
+            - product-service-db
+            - eureka
+    auth-service:
+        restart: always
+        container_name: auth-service
+        build:
+            context: ./auth-service
+            dockerfile: deployment/Dockerfile
+        ports:
+            - 9999:9999
+        links:
+            - eureka
+        depends_on:
+            - eureka
+    product-service-db:
+        restart: always
+        container_name: product-service-db
+        image: mysql
+        expose:
+            - "3306"
+        volumes:
+            - ./product-service/deployment/db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: product_service
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+    eureka:
+        restart: always
+        container_name: eureka
+        build:
+            context: ./eureka-service
+            dockerfile: deployment/Dockerfile
+        expose:
+            - "8761"
+        ports:
+            - 8761:8761

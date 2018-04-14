@@ -1,0 +1,24 @@
+server:
+  port: 9999
+
+security:
+  oauth2:
+    client:
+      client-id: shopify
+      client-secret: shopify
+      scope: read,write
+      auto-approve-scopes: '.*'
+
+github:
+  client:
+    clientId: ecb00321b40fc28ebba0
+    clientSecret: 83a103cd5bafebde04ac762503a16c7c9f0ee717
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://api.github.com/user
+
+logging:
+  level:
+    org.springframework.security: DEBUG
