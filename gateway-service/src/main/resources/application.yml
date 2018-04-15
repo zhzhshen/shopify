@@ -1,12 +1,12 @@
 spring:
   application:
-    name: product-service
+    name: gateway-service
   profiles:
     active: local
 
 server:
-  port: 8081
-#  context-path: /api
+  port: 8080
+  context-path: /gateway
 
 eureka:
   instance:
@@ -25,18 +25,19 @@ security:
     resource:
       user-info-uri: http://localhost:9999/me
 
+zuul:
+  ignoredServices: '*'
+  routes:
+    auth:
+      path: /auth-service/**
+      serviceId: auth-service
+    product:
+      path: /product-service/**
+      serviceId: product-service
+
 ---
 spring:
   profiles: local
-  datasource:
-      url: jdbc:mysql://localhost:3306/product_service
-      username: root
-      password: root
-      driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create
-
 eureka:
   client:
     serviceUrl:
@@ -45,14 +46,6 @@ eureka:
 ---
 spring:
   profiles: docker
-  datasource:
-      url: jdbc:mysql://product-service-db:3306/product_service
-      username: root
-      password: root
-      driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create
 eureka:
   client:
     serviceUrl:

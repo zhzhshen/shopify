@@ -1,12 +1,9 @@
-package com.thoughtworks.sid.productService.controller;
+package com.thoughtworks.sid.gatewayService.controller;
 
-import com.thoughtworks.sid.productService.domain.Product;
-import com.thoughtworks.sid.productService.repository.ProductRepository;
+import com.thoughtworks.sid.gatewayService.domain.Product;
+import com.thoughtworks.sid.gatewayService.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,10 +22,15 @@ import java.security.Principal;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/products")
+@RequestMapping(value = "/api/products")
 public class ProductsController {
     @Value("${demo.env}")
     private String env;
+
+    @RequestMapping("/hello")
+    public String getProduct() {
+        return "hello!";
+    }
 
     @Autowired
     ProductRepository productRepository;
@@ -51,7 +53,7 @@ public class ProductsController {
                                                UriComponentsBuilder uriBuilder) {
         Product savedImage = productRepository.save(new Product((String) info.get("name"), (String) info.get("description")));
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/api/images/{id}").buildAndExpand(savedImage.getId()).toUri());
+        headers.setLocation(uriBuilder.path("/api/products/{id}").buildAndExpand(savedImage.getId()).toUri());
         return new ResponseEntity(savedImage, headers, HttpStatus.CREATED);
     }
 }

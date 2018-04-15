@@ -1,4 +1,4 @@
-package com.thoughtworks.sid.productService.domain;
+package com.thoughtworks.sid.gatewayService.domain;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
