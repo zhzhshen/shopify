@@ -27,17 +27,17 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
 
-security:
-  oauth2:
-    client:
-      client-id: shopify
-      client-secret: shopify
-      access-token-uri: http://localhost:9999/oauth/token
-      user-authorization-uri: http://localhost:9999/oauth/authorize
-    resource:
-      user-info-uri: http://localhost:9999/me
+#security:
+#  oauth2:
+#    client:
+#      client-id: shopify
+#      client-secret: shopify
+#      access-token-uri: http://localhost:9999/oauth/token
+#      user-authorization-uri: http://localhost:9999/oauth/authorize
+#    resource:
+#      user-info-uri: http://localhost:9999/me
 
 eureka:
   client:
@@ -54,17 +54,17 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
 
-security:
-  oauth2:
-    client:
-      client-id: shopify
-      client-secret: shopify
-      access-token-uri: http://localhost:9999/oauth/token
-      user-authorization-uri: http://localhost:9999/oauth/authorize
-    resource:
-      user-info-uri: http://localhost:9999/me
+#security:
+#  oauth2:
+#    client:
+#      client-id: shopify
+#      client-secret: shopify
+#      access-token-uri: http://localhost:9999/oauth/token
+#      user-authorization-uri: http://localhost:9999/oauth/authorize
+#    resource:
+#      user-info-uri: http://localhost:9999/me
 
 eureka:
   client:

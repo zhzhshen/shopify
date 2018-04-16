@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 @SpringBootApplication
 public class ProductServiceApplication {
 
