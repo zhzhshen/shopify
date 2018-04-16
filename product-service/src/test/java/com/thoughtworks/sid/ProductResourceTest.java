@@ -24,6 +24,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Arrays;
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ProductResourceTest {
@@ -69,7 +72,7 @@ public class ProductResourceTest {
     }
 
     @Test
-    public void should_not_find_inexist_product() throws Exception {
+    public void should_fail_to_find_inexist_product() throws Exception {
         when(productRepository.findOne(PRODUCT_ID)).thenReturn(null);
         RequestBuilder requestBuilder = get(PRODUCT_URL + PRODUCT_ID);
         mvc.perform(requestBuilder)
@@ -77,12 +80,22 @@ public class ProductResourceTest {
     }
 
     @Test
-    public void should_find_existing_product() throws Exception {
+    public void should_success_to_find_existing_product() throws Exception {
         when(productRepository.findOne(PRODUCT_ID)).thenReturn(VALID_PRODUCT);
         RequestBuilder requestBuilder = get(PRODUCT_URL + PRODUCT_ID);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(VALID_PRODUCT)))
                 .andReturn();
+    }
+
+    @Test
+    public void should_success_to_get_product_list() throws Exception {
+        List<Product> products = Arrays.asList(SAVED_PRODUCT);
+        when(productRepository.findAll()).thenReturn(products);
+        RequestBuilder requestBuilder = get(PRODUCT_URL);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(products)));
     }
 }

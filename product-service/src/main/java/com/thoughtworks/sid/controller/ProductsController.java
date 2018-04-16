@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,33 +28,33 @@ public class ProductsController {
     @Value("${demo.env}")
     private String env;
 
-    @RequestMapping("/hello")
-    public String getProduct() {
-        return "hello!";
-    }
-
     @Autowired
     ProductRepository productRepository;
-
-    @ApiOperation(value = "获取产品信息")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Product> getProduct(@ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
-                                            Principal user) {
-        Product product = productRepository.findOne(Long.valueOf(id));
-        return new ResponseEntity(product, product != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-    }
 
     @ApiOperation(value = "创建产品")
     @RequestMapping(value = "/",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Product> createProduct(@RequestBody Map info,
-                                               Principal user,
+    public ResponseEntity<Product> createProduct(@RequestBody Product product,
                                                UriComponentsBuilder uriBuilder) {
-        Product savedImage = productRepository.save(new Product((String) info.get("name"), (String) info.get("description")));
+        Product savedImage = productRepository.save(product);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriBuilder.path("/api/products/{id}").buildAndExpand(savedImage.getId()).toUri());
         return new ResponseEntity(savedImage, headers, HttpStatus.CREATED);
+    }
+
+    @ApiOperation(value = "获取产品列表")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity getProducts() {
+        List<Product> allProducts = productRepository.findAll();
+        return new ResponseEntity(allProducts, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "获取产品信息")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Product> getProduct(@ApiParam(required = true, name = "id", value = "id") @PathVariable String id) {
+        Product product = productRepository.findOne(Long.valueOf(id));
+        return new ResponseEntity(product, product != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }
