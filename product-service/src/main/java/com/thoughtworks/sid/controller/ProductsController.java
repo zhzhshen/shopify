@@ -25,8 +25,6 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/products")
 public class ProductsController {
-    @Value("${demo.env}")
-    private String env;
 
     @Autowired
     ProductRepository productRepository;

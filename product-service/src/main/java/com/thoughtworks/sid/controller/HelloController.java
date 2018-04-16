@@ -13,8 +13,8 @@ public class HelloController {
         return "hello " + user.getName();
     }
 
-    @RequestMapping("/hello")
-    public String user(HttpServletRequest request) {
-        return "hello2 " + request.getUserPrincipal().getName();
+    @RequestMapping("/session")
+    public Principal hello(HttpServletRequest request) {
+        return request.getUserPrincipal();
     }
 }
