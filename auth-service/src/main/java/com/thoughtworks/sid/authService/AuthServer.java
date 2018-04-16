@@ -48,10 +48,8 @@ public class AuthServer extends WebSecurityConfigurerAdapter {
 	OAuth2ClientContext oauth2ClientContext;
 
 	@RequestMapping({ "/user", "/me" })
-	public Map<String, String> user(Principal principal) {
-		Map<String, String> map = new LinkedHashMap<>();
-		map.put("name", principal.getName());
-		return map;
+	public Principal user(Principal principal) {
+		return principal;
 	}
 
 	@Override

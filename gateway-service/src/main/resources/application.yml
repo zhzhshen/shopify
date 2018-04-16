@@ -26,7 +26,6 @@ security:
       user-info-uri: http://localhost:9999/me
 
 zuul:
-  ignoredServices: '*'
   routes:
     auth:
       path: /auth-service/**
@@ -34,6 +33,7 @@ zuul:
     product:
       path: /product-service/**
       serviceId: product-service
+  add-host-header: true
 
 ---
 spring:

@@ -6,7 +6,6 @@ spring:
 
 server:
   port: 8081
-#  context-path: /api
 
 eureka:
   instance:
@@ -15,15 +14,22 @@ eureka:
     healthcheck:
       enabled: true
 
-security:
-  oauth2:
-    client:
-      client-id: shopify
-      client-secret: shopify
-      access-token-uri: http://localhost:9999/oauth/token
-      user-authorization-uri: http://localhost:9999/oauth/authorize
-    resource:
-      user-info-uri: http://localhost:9999/me
+#security:
+#  oauth2:
+#    client:
+#      client-id: shopify
+#      client-secret: shopify
+#      access-token-uri: http://localhost:9999/oauth/token
+#      user-authorization-uri: http://localhost:9999/oauth/authorize
+#    resource:
+#      user-info-uri: http://localhost:9999/me
+#management.security.enabled: false
+#security:
+#  oauth2:
+#    resource:
+#      id: product-service
+#      user-info-uri: http://localhost:8080/gateway/user
+#      prefer-token-info: false
 
 ---
 spring:
