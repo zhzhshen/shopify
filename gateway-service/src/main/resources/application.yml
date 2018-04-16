@@ -5,7 +5,7 @@ spring:
     active: local
 
 server:
-  port: 8080
+  port: 8765
   context-path: /gateway
 
 eureka:

@@ -47,6 +47,19 @@ services:
             - eureka
         depends_on:
             - eureka
+    bff:
+        restart: always
+        container_name: bff
+        hostname: bff
+        build:
+            context: ./bff
+            dockerfile: deployment/Dockerfile
+        ports:
+            - 8080:8080
+        links:
+            - eureka
+        depends_on:
+            - eureka
     gateway-service:
         restart: always
         container_name: gateway-service
@@ -55,7 +68,7 @@ services:
             context: ./gateway-service
             dockerfile: deployment/Dockerfile
         ports:
-            - 8080:8080
+            - 8765:8765
         links:
             - eureka
             - product-service

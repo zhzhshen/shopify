@@ -4,4 +4,4 @@ COPY ./target/*.jar /lib/app.jar
 
 ENTRYPOINT sh -c 'java -jar /lib/app.jar --spring.profiles.active=docker'
 
-EXPOSE 8765
+EXPOSE 8080
