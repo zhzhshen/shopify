@@ -1,4 +1,4 @@
-package com.thoughtworks.sid.gatewayService;
+package com.thoughtworks.sid;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -8,8 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.sid.gatewayService.domain.Product;
-import com.thoughtworks.sid.gatewayService.repository.ProductRepository;
+import com.thoughtworks.sid.controller.ProductsController;
+import com.thoughtworks.sid.domain.Product;
+import com.thoughtworks.sid.repository.ProductRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,8 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.thoughtworks.sid.gatewayService.controller.ProductsController;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

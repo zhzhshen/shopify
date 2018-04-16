@@ -1,4 +1,4 @@
-package com.thoughtworks.sid.authService.eureka.server;
+package com.thoughtworks.sid.eureka.server;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

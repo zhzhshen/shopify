@@ -1,4 +1,4 @@
-package com.thoughtworks.sid.gatewayService.config;
+package com.thoughtworks.sid.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

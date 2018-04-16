@@ -1,7 +1,7 @@
-package com.thoughtworks.sid.gatewayService.controller;
+package com.thoughtworks.sid.controller;
 
-import com.thoughtworks.sid.gatewayService.domain.Product;
-import com.thoughtworks.sid.gatewayService.repository.ProductRepository;
+import com.thoughtworks.sid.domain.Product;
+import com.thoughtworks.sid.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

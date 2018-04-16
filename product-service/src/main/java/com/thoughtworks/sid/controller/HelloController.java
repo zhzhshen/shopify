@@ -1,4 +1,4 @@
-package com.thoughtworks.sid.gatewayService.controller;
+package com.thoughtworks.sid.controller;
 
 import org.springframework.web.bind.annotation.*;
 
