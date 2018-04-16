@@ -1,6 +1,8 @@
 spring:
   application:
     name: auth-service
+  profiles:
+      active: local
 
 server:
   port: 9999
@@ -26,3 +28,21 @@ github:
 logging:
   level:
     org.springframework.security: DEBUG
+
+---
+spring:
+  profiles: local
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+---
+spring:
+  profiles: docker
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka/

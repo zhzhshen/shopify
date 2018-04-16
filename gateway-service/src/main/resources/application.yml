@@ -29,11 +29,14 @@ zuul:
   routes:
     auth:
       path: /auth-service/**
+      sensitiveHeaders:
       serviceId: auth-service
     product:
       path: /product-service/**
+      sensitiveHeaders:
       serviceId: product-service
   add-host-header: true
+#  sensitive-headers:
 
 ---
 spring:

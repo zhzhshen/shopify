@@ -3,6 +3,7 @@ services:
     product-service:
         restart: always
         container_name: product-service
+        hostname: product-service
         build:
             context: ./product-service
             dockerfile: deployment/Dockerfile
@@ -10,13 +11,16 @@ services:
             - 8081:8081
         links:
             - product-service-db
+            - auth-service
             - eureka
         depends_on:
             - product-service-db
+            - auth-service
             - eureka
     auth-service:
         restart: always
         container_name: auth-service
+        hostname: auth-service
         build:
             context: ./auth-service
             dockerfile: deployment/Dockerfile
@@ -42,6 +46,7 @@ services:
     eureka:
         restart: always
         container_name: eureka
+        hostname: eureka
         build:
             context: ./eureka-service
             dockerfile: deployment/Dockerfile

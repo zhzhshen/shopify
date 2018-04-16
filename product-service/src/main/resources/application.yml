@@ -6,6 +6,9 @@ spring:
 
 server:
   port: 8081
+  session:
+    cookie:
+      name: PRODUCT_SESSION
 
 eureka:
   instance:
@@ -13,23 +16,6 @@ eureka:
     leaseExpirationDurationInSeconds: 30
     healthcheck:
       enabled: true
-
-#security:
-#  oauth2:
-#    client:
-#      client-id: shopify
-#      client-secret: shopify
-#      access-token-uri: http://localhost:9999/oauth/token
-#      user-authorization-uri: http://localhost:9999/oauth/authorize
-#    resource:
-#      user-info-uri: http://localhost:9999/me
-#management.security.enabled: false
-#security:
-#  oauth2:
-#    resource:
-#      id: product-service
-#      user-info-uri: http://localhost:8080/gateway/user
-#      prefer-token-info: false
 
 ---
 spring:
@@ -42,6 +28,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+security:
+  oauth2:
+    client:
+      client-id: shopify
+      client-secret: shopify
+      access-token-uri: http://localhost:9999/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:9999/me
 
 eureka:
   client:
@@ -59,6 +55,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+security:
+  oauth2:
+    client:
+      client-id: shopify
+      client-secret: shopify
+      access-token-uri: http://localhost:9999/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:9999/me
+
 eureka:
   client:
     serviceUrl:
