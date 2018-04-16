@@ -17,6 +17,23 @@ services:
             - product-service-db
             - auth-service
             - eureka
+    price-service:
+        restart: always
+        container_name: price-service
+        hostname: price-service
+        build:
+            context: ./price-service
+            dockerfile: deployment/Dockerfile
+        ports:
+            - 8082:8082
+        links:
+            - price-service-db
+            - auth-service
+            - eureka
+        depends_on:
+            - price-service-db
+            - auth-service
+            - eureka
     auth-service:
         restart: always
         container_name: auth-service
@@ -41,6 +58,19 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: product_service
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+    price-service-db:
+        restart: always
+        container_name: price-service-db
+        image: mysql
+        expose:
+            - "3306"
+        volumes:
+            - ./price-service/deployment/db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: price_service
             MYSQL_USER: root
             MYSQL_PASSWORD: root
     eureka:

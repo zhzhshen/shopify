@@ -38,10 +38,10 @@ public class ProductsController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> createProduct(@RequestBody Product product,
                                                UriComponentsBuilder uriBuilder) {
-        Product savedImage = productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/api/products/{id}").buildAndExpand(savedImage.getId()).toUri());
-        return new ResponseEntity(savedImage, headers, HttpStatus.CREATED);
+        headers.setLocation(uriBuilder.path("/api/products/{id}").buildAndExpand(savedProduct.getId()).toUri());
+        return new ResponseEntity(savedProduct, headers, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "获取产品列表")

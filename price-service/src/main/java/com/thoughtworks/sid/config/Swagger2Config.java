@@ -33,7 +33,7 @@ public class Swagger2Config {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("Product Service API")
+				.title("Product Price Service API")
 				.description("")
 				.version("1.0")
 				.termsOfServiceUrl("")

@@ -35,6 +35,10 @@ zuul:
       path: /product-service/**
       sensitiveHeaders:
       serviceId: product-service
+    price:
+      path: /price-service/**
+      sensitiveHeaders:
+      serviceId: price-service
   add-host-header: true
 #  sensitive-headers:
 

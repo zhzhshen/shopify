@@ -23,6 +23,7 @@
         <module>auth-service</module>
         <module>gateway-service</module>
         <module>product-service</module>
+        <module>price-service</module>
     </modules>
 
     <properties>

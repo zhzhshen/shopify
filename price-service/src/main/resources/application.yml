@@ -1,14 +1,14 @@
 spring:
   application:
-    name: product-service
+    name: price-service
   profiles:
     active: local
 
 server:
-  port: 8081
+  port: 8082
   session:
     cookie:
-      name: PRODUCT_SESSION
+      name: PRICE_SESSION
 
 eureka:
   instance:
@@ -21,7 +21,7 @@ eureka:
 spring:
   profiles: local
   datasource:
-      url: jdbc:mysql://localhost:3306/product_service
+      url: jdbc:mysql://localhost:3306/price_service
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -48,7 +48,7 @@ eureka:
 spring:
   profiles: docker
   datasource:
-      url: jdbc:mysql://product-service-db:3306/product_service
+      url: jdbc:mysql://price-service-db:3306/price_service
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver

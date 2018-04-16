@@ -3,12 +3,10 @@ package com.thoughtworks.sid.domain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "Product")
 @ApiModel("Product model")
 public class Product {
     @ApiModelProperty("ID")
