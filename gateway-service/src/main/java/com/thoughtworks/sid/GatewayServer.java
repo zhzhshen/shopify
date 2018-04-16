@@ -7,7 +7,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @EnableDiscoveryClient
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 @EnableZuulProxy
 @SpringBootApplication
 public class GatewayServer {

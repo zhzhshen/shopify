@@ -47,6 +47,25 @@ services:
             - eureka
         depends_on:
             - eureka
+    gateway-service:
+        restart: always
+        container_name: gateway-service
+        hostname: gateway-service
+        build:
+            context: ./gateway-service
+            dockerfile: deployment/Dockerfile
+        ports:
+            - 8080:8080
+        links:
+            - eureka
+            - product-service
+            - price-service
+            - auth-service
+        depends_on:
+            - eureka
+            - product-service
+            - price-service
+            - auth-service
     product-service-db:
         restart: always
         container_name: product-service-db
