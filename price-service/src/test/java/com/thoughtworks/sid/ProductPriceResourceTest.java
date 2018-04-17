@@ -91,10 +91,20 @@ public class ProductPriceResourceTest {
     }
 
     @Test
-    public void should_success_to_get_product_list() throws Exception {
+    public void should_success_to_get_product_prices_list() throws Exception {
         List<ProductPrice> products = Arrays.asList(SAVED_PRODUCT_PRICE);
         when(productPriceRepository.findAll()).thenReturn(products);
         RequestBuilder requestBuilder = get(PRODUCT_PRICE_URL);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(products)));
+    }
+
+    @Test
+    public void should_success_to_get_price_list_of_a_product() throws Exception {
+        List<ProductPrice> products = Arrays.asList(SAVED_PRODUCT_PRICE);
+        when(productPriceRepository.findProductPricesByProductId(PRODUCT_ID)).thenReturn(products);
+        RequestBuilder requestBuilder = get(PRODUCT_PRICE_URL).param("productId", PRODUCT_ID.toString());
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(products)));

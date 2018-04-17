@@ -3,13 +3,12 @@ package com.thoughtworks.sid.controller;
 import com.thoughtworks.sid.constant.Services;
 import com.thoughtworks.sid.domain.Product;
 import com.thoughtworks.sid.service.GatewayService;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -34,5 +33,11 @@ public class ProductsController {
             method = RequestMethod.GET)
     public ResponseEntity getProductsList() {
         return gatewayService.get(Services.PRODUCT_SERVICE, "/api/products/");
+    }
+
+    @ApiOperation(value = "获取产品信息")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity getProduct(@ApiParam(required = true, name = "id", value = "id") @PathVariable String id) {
+        return gatewayService.get(Services.PRODUCT_SERVICE, "/api/products/" + id);
     }
 }

@@ -7,17 +7,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/product-prices")
@@ -32,7 +29,7 @@ public class ProductPricesController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductPrice> createProductPrice(@RequestBody ProductPrice productPrice,
-                                                      UriComponentsBuilder uriBuilder) {
+                                                           UriComponentsBuilder uriBuilder) {
         ProductPrice savedProductPrice = productPriceRepository.save(productPrice);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriBuilder.path("/api/product-prices/{id}").buildAndExpand(savedProductPrice.getId()).toUri());
@@ -41,8 +38,8 @@ public class ProductPricesController {
 
     @ApiOperation(value = "获取产品价格列表")
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity getProductPrices() {
-        List<ProductPrice> allProductPrices = productPriceRepository.findAll();
+    public ResponseEntity getProductPrices(@ApiParam(name = "productId", value = "productId") @RequestParam(value = "productId") Optional<String> productId) {
+        List<ProductPrice> allProductPrices = productId.isPresent() ? productPriceRepository.findProductPricesByProductId(Long.valueOf(productId.get())) : productPriceRepository.findAll();
         return new ResponseEntity(allProductPrices, HttpStatus.OK);
     }
 

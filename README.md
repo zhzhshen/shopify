@@ -26,6 +26,7 @@
 ### Price Service (BE: 35min/ FE: 60min)
 1. business logic
 	+ POST `/product-prices` 15min
+	+ GET `/product-prices?productId=` 10min
 	+ GET `/product-prices/{price_id}` 10min
 	+ GET `/product-prices/latest` 10min
 2. front end lib
