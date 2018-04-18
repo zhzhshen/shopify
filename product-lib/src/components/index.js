@@ -1,7 +1,19 @@
-import CreateProduct from './CreateProduct'
-import ProductList from './ProductList'
+import CreateProductComponent from './CreateProduct'
+import ProductListComponent from './ProductList'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
-export {
-  CreateProduct,
-  ProductList
+const ProductLib = {
+  install: function (Vue) {
+    Vue.component('create-product', CreateProductComponent)
+    Vue.component('product-list', ProductListComponent)
+    Vue.use(Element)
+  }
 }
+
+if (window.Vue) {
+  window.ProductLib = ProductLib
+  Vue.use(ProductLib)
+}
+
+export default ProductLib

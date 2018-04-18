@@ -8,11 +8,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import Element from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
-Vue.use(Element)
 
 export default {
   name: 'product-list',
@@ -35,7 +31,7 @@ export default {
 </script>
 
 <style>
-.product-list th {
+.product-list tr th {
   text-align: center;
 }
 </style>
