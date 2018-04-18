@@ -55,6 +55,25 @@ public class ProductPricesController {
         }
     }
 
+    @ApiOperation(value = "获取当前产品价格")
+    @RequestMapping(value = "/latest", method = RequestMethod.GET)
+    public ResponseEntity getCurrentProductPrice(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId) {
+        Product product = retrieveProduct(productId);
+        ResponseEntity responseEntity = gatewayService.get(Services.PRICE_SERVICE, "/api/product-prices/latest" + "?productId=" + productId);
+        ProductPrice productPrice = null;
+        try {
+            productPrice = objectMapper.readValue((String) responseEntity.getBody(), ProductPrice.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (product == null || productPrice == null || !product.getId().equals(productPrice.getProductId())) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } else {
+            return responseEntity;
+        }
+    }
+
     @ApiOperation(value = "获取产品价格")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getProductPrice(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,

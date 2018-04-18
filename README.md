@@ -12,23 +12,23 @@
 
 ### User Service (BE: 120min)
 + Spike OAuth 1h
-+ Implementation 1h
++ Implementation 1h 2d
 
 ### Product Service (BE: 35min/ FE: 60min)
 1. business logic
-	+ POST `/products` 15min
-	+ GET `/products` 10min
-	+ GET `/products/{product_id}` 10min
+	+ [x] POST `/products` 15min
+	+ [x] GET `/products` 10min
+	+ [x] GET `/products/{product_id}` 10min
 2. front end lib
-	+ `<create-product>` element 30min
-	+ `<product-list>` element 30min
+	+ [x] `<create-product>` element 30min
+	+ [x] `<product-list>` element 30min
 
 ### Price Service (BE: 35min/ FE: 60min)
 1. business logic
-	+ POST `/product-prices` 15min
-	+ GET `/product-prices?productId=` 10min
-	+ GET `/product-prices/{price_id}` 10min
-	+ GET `/product-prices/latest` 10min
+	+ [x] POST `/product-prices` 15min
+	+ [x] GET `/product-prices?productId=` 10min
+	+ [x] GET `/product-prices/{price_id}` 10min
+	+ [x] GET `/product-prices/latest` 10min
 2. front end lib
 	+ `<create-product-price>` element 30min
 	+ `<product-prices>` element 30min
@@ -103,12 +103,12 @@
 	+ `<cart>` 30min
 
 ### BFF (BE: 250min)
-1. POST `/products` 5min
-2. GET `/products` 5min
-3. GET `/products/{prodcut_id}` 5min
-4. *POST `/products/{prodcut_id}/prices` 15min
-5. GET `/products/{prodcut_id}/prices/{price_id}` 5min
-6. GET `/products/{prodcut_id}/prices/latest` 5min
+1. [x] POST `/products` 5min
+2. [x] GET `/products` 5min
+3. [x] GET `/products/{prodcut_id}` 5min
+4. [x] *POST `/products/{prodcut_id}/prices` 15min
+5. [x] GET `/products/{prodcut_id}/prices/{price_id}` 5min
+6. [x] GET `/products/{prodcut_id}/prices/latest` 5min
 7. POST `/stores` 5min
 8. GET `/stores` 5min
 9. GET `/stores/{store_id}` 5min

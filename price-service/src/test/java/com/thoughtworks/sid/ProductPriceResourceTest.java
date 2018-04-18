@@ -109,4 +109,23 @@ public class ProductPriceResourceTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(products)));
     }
+
+    @Test
+    public void should_success_to_get_product_price() throws Exception {
+        when(productPriceRepository.findOne(PRICE_ID)).thenReturn(SAVED_PRODUCT_PRICE);
+        RequestBuilder requestBuilder = get(PRODUCT_PRICE_URL + PRICE_ID);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_PRODUCT_PRICE)));
+    }
+
+    @Test
+    public void should_success_to_get_current_product_price() throws Exception {
+        List<ProductPrice> products = Arrays.asList(SAVED_PRODUCT_PRICE);
+        when(productPriceRepository.findAvailableProductPrice(PRODUCT_ID)).thenReturn(products);
+        RequestBuilder requestBuilder = get(PRODUCT_PRICE_URL + "latest").param("productId", PRODUCT_ID.toString());
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_PRODUCT_PRICE)));
+    }
 }

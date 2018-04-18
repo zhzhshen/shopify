@@ -43,6 +43,17 @@ public class ProductPricesController {
         return new ResponseEntity(allProductPrices, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "获取最新产品价格信息")
+    @RequestMapping(value = "/latest", method = RequestMethod.GET)
+    public ResponseEntity<ProductPrice> getCurrentProductPrice(@ApiParam(name = "productId", value = "productId") @RequestParam(value = "productId") String productId) {
+        List<ProductPrice> productPrices = productPriceRepository.findAvailableProductPrice(Long.valueOf(productId));
+        if (productPrices != null && productPrices.size() > 0) {
+            return new ResponseEntity(productPrices.get(0), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @ApiOperation(value = "获取产品价格信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<ProductPrice> getProductPrice(@ApiParam(required = true, name = "id", value = "id") @PathVariable String id) {

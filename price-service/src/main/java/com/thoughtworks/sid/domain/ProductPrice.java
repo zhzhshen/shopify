@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "ProductPrice")
+@Table(name = "Product_Price")
 @ApiModel("Product Price model")
 public class ProductPrice {
     @ApiModelProperty("ID")
