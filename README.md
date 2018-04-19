@@ -22,6 +22,7 @@
 2. front end lib
 	+ [x] `<create-product>` element 30min
 	+ [x] `<product-list>` element 30min
+	+ [x] `<product-select>` element 30min
 
 ### Price Service (BE: 35min/ FE: 60min)
 1. business logic
@@ -30,8 +31,8 @@
 	+ [x] GET `/product-prices/{price_id}` 10min
 	+ [x] GET `/product-prices/latest` 10min
 2. front end lib
-	+ `<create-product-price>` element 30min
-	+ `<product-prices>` element 30min
+	+ [x] `<create-product-price>` element 30min
+	+ [x] `<product-prices>` element 30min
 
 ### Inventory Service (BE: 140min/ FE: 210min)
 1. business logic

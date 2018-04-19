@@ -47,6 +47,10 @@ public class ProductPrice {
         return productId;
     }
 
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
     public Double getPrice() {
         return price;
     }

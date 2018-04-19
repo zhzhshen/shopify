@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import App from './App'
-import ProductLib from 'product-lib'
-import 'product-lib/dist/product-lib.min.css'
+import PriceLib from './components/index'
 
 Vue.config.productionTip = false
-Vue.use(ProductLib)
+Vue.use(PriceLib)
 
 new Vue({
   el: '#app',

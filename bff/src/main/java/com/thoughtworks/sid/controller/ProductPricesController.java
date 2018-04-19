@@ -38,6 +38,7 @@ public class ProductPricesController {
         if (product == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
+            productPrice.setProductId(Long.valueOf(productId));
             return gatewayService.post(Services.PRICE_SERVICE, "/api/product-prices/", productPrice);
         }
     }

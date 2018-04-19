@@ -3,10 +3,10 @@
     <img src="./assets/logo.png">
     <div style="display: flex;">
       <div style="width: 50%;">
-        <create-product/>
+        <create-product-price/>
       </div>
       <div style="width: 50%;">
-        <product-list/>
+        <product-prices/>
       </div>
     </div>
   </div>
