@@ -3,9 +3,6 @@ spring:
     name: gateway-service
   profiles:
     active: local
-  redis:
-    host: localhost
-    port: 6379
 
 server:
   port: 8080
@@ -39,7 +36,6 @@ zuul:
       sensitiveHeaders:
       serviceId: product-service
   add-host-header: true
-#  sensitive-headers:
 
 ---
 spring:
