@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @EnableDiscoveryClient
-//@EnableOAuth2Sso
+@EnableResourceServer
 @SpringBootApplication
 public class ProductServiceApplication {
 
