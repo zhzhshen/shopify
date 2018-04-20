@@ -44,7 +44,7 @@ export default {
       })
     },
     createProduct () {
-      axios.post('http://localhost:8080/products/', {'name': this.form.name, 'description': this.form.description})
+      axios.post('http://localhost:8080/shopify/products/', {'name': this.form.name, 'description': this.form.description})
         .then(resp => { console.info('success to create product', resp.data) })
         .catch(error => { console.error('error in creating product'); console.log(error) })
     }

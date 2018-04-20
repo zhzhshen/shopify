@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     getProductList () {
-      axios.get('http://localhost:8080/products/')
+      axios.get('http://localhost:8080/shopify/products/')
         .then(resp => { this.products = resp.data })
         .catch(error => { console.error('error in getting product list'); console.log(error) })
     },

@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 @EnableDiscoveryClient
-@EnableOAuth2Sso
+@EnableResourceServer
 @EnableZuulProxy
 @SpringBootApplication
 public class GatewayServer {
