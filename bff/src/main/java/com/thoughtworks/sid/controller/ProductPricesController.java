@@ -14,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.rmi.PortableRemoteObject;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/products/{productId}/prices")
@@ -32,35 +35,42 @@ public class ProductPricesController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createProductPrice(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
-                                             @RequestBody ProductPrice productPrice) {
-        Product product = retrieveProduct(productId);
+                                             @RequestBody ProductPrice productPrice,
+                                             HttpServletRequest request) {
+        Product product = retrieveProduct(request, productId);
 
         if (product == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             productPrice.setProductId(Long.valueOf(productId));
-            return gatewayService.post(Services.PRICE_SERVICE, "/api/product-prices/", productPrice);
+            return gatewayService.post(request, Services.PRICE_SERVICE, "/api/product-prices/", productPrice);
         }
     }
 
     @ApiOperation(value = "获取产品价格列表")
     @RequestMapping(value = "/",
             method = RequestMethod.GET)
-    public ResponseEntity getProductPricesList(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId) {
-        Product product = retrieveProduct(productId);
+    public ResponseEntity getProductPricesList(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
+                                               HttpServletRequest request) {
+        Product product = retrieveProduct(request, productId);
 
         if (product == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
-            return gatewayService.get(Services.PRICE_SERVICE, "/api/product-prices/?productId=" + productId);
+            Map<String, String> params = new HashMap<>();
+            params.put("productId", productId);
+            return gatewayService.get(request, Services.PRICE_SERVICE, "/api/product-prices/", params);
         }
     }
 
     @ApiOperation(value = "获取当前产品价格")
     @RequestMapping(value = "/latest", method = RequestMethod.GET)
-    public ResponseEntity getCurrentProductPrice(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId) {
-        Product product = retrieveProduct(productId);
-        ResponseEntity responseEntity = gatewayService.get(Services.PRICE_SERVICE, "/api/product-prices/latest" + "?productId=" + productId);
+    public ResponseEntity getCurrentProductPrice(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
+                                                 HttpServletRequest request) {
+        Product product = retrieveProduct(request, productId);
+        Map<String, String> params = new HashMap<>();
+        params.put("productId", productId);
+        ResponseEntity responseEntity = gatewayService.get(request, Services.PRICE_SERVICE, "/api/product-prices/latest", params);
         ProductPrice productPrice = null;
         try {
             productPrice = objectMapper.readValue((String) responseEntity.getBody(), ProductPrice.class);
@@ -78,9 +88,12 @@ public class ProductPricesController {
     @ApiOperation(value = "获取产品价格")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getProductPrice(@ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
-                                          @ApiParam(required = true, name = "id", value = "id") @PathVariable String id) {
-        Product product = retrieveProduct(productId);
-        ResponseEntity responseEntity = gatewayService.get(Services.PRICE_SERVICE, "/api/product-prices/" + id + "?productId=" + productId);
+                                          @ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
+                                          HttpServletRequest request) {
+        Product product = retrieveProduct(request, productId);
+        Map<String, String> params = new HashMap<>();
+        params.put("productId", productId);
+        ResponseEntity responseEntity = gatewayService.get(request, Services.PRICE_SERVICE, "/api/product-prices/" + id, params);
         ProductPrice productPrice = null;
         try {
             productPrice = objectMapper.readValue((String) responseEntity.getBody(), ProductPrice.class);
@@ -95,8 +108,8 @@ public class ProductPricesController {
         }
     }
 
-    private Product retrieveProduct(String productId) {
-        ResponseEntity responseEntity = gatewayService.get(Services.PRODUCT_SERVICE, "/api/products/" + productId);
+    private Product retrieveProduct(HttpServletRequest request, String productId) {
+        ResponseEntity responseEntity = gatewayService.get(request, Services.PRODUCT_SERVICE, "/api/products/" + productId);
         try {
             return objectMapper.readValue((String) responseEntity.getBody(), Product.class);
         } catch (IOException e) {

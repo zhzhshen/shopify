@@ -6,9 +6,11 @@ spring:
 
 server:
   port: 8081
-  session:
-    cookie:
-      name: PRODUCT_SESSION
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:9999/me
 
 eureka:
   instance:
@@ -27,17 +29,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
-
-#security:
-#  oauth2:
-#    client:
-#      client-id: shopify
-#      client-secret: shopify
-#      access-token-uri: http://localhost:9999/oauth/token
-#      user-authorization-uri: http://localhost:9999/oauth/authorize
-#    resource:
-#      user-info-uri: http://localhost:9999/me
+      ddl-auto: update
 
 eureka:
   client:
@@ -54,17 +46,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
-
-#security:
-#  oauth2:
-#    client:
-#      client-id: shopify
-#      client-secret: shopify
-#      access-token-uri: http://localhost:9999/oauth/token
-#      user-authorization-uri: http://localhost:9999/oauth/authorize
-#    resource:
-#      user-info-uri: http://localhost:9999/me
+      ddl-auto: update
 
 eureka:
   client:

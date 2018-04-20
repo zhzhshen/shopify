@@ -15,15 +15,15 @@ eureka:
     healthcheck:
       enabled: true
 
-#security:
-#  oauth2:
+security:
+  oauth2:
 #    client:
 #      client-id: shopify
 #      client-secret: shopify
 #      access-token-uri: http://localhost:9999/oauth/token
 #      user-authorization-uri: http://localhost:9999/oauth/authorize
-#    resource:
-#      user-info-uri: http://localhost:9999/me
+    resource:
+      user-info-uri: http://localhost:9999/me
 
 zuul:
   routes:
@@ -40,7 +40,6 @@ zuul:
       sensitiveHeaders:
       serviceId: price-service
   add-host-header: true
-#  sensitive-headers:
 
 ---
 spring:

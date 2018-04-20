@@ -1,16 +1,12 @@
 spring:
   application:
-    name: bff
+    name: token-service
   profiles:
     active: local
 
 server:
-  port: 8080
-
-security:
-  oauth2:
-    resource:
-      user-info-uri: http://localhost:9999/me
+  port: 9876
+  context-path: /token
 
 eureka:
   instance:
@@ -19,10 +15,19 @@ eureka:
     healthcheck:
       enabled: true
 
+security:
+  oauth2:
+    client:
+      client-id: shopify
+      client-secret: shopify
+      access-token-uri: http://localhost:9999/oauth/token
+      user-authorization-uri: http://localhost:9999/oauth/authorize
+    resource:
+      user-info-uri: http://localhost:9999/me
+
 ---
 spring:
   profiles: local
-
 eureka:
   client:
     serviceUrl:
@@ -31,7 +36,6 @@ eureka:
 ---
 spring:
   profiles: docker
-
 eureka:
   client:
     serviceUrl:
