@@ -28,8 +28,8 @@ public class ProductsController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createProduct(@RequestBody Product product) {
-        return gatewayService.post(Services.PRODUCT_SERVICE, "/api/products/", product);
+    public ResponseEntity createProduct(HttpServletRequest request, @RequestBody Product product) {
+        return gatewayService.post(request, Services.PRODUCT_SERVICE, "/api/products/", product);
     }
 
     @ApiOperation(value = "获取产品列表")

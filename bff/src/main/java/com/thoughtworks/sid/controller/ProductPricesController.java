@@ -43,7 +43,7 @@ public class ProductPricesController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         } else {
             productPrice.setProductId(Long.valueOf(productId));
-            return gatewayService.post(Services.PRICE_SERVICE, "/api/product-prices/", productPrice);
+            return gatewayService.post(request, Services.PRICE_SERVICE, "/api/product-prices/", productPrice);
         }
     }
 
@@ -59,7 +59,7 @@ public class ProductPricesController {
         } else {
             Map<String, String> params = new HashMap<>();
             params.put("productId", productId);
-            return gatewayService.get(request, Services.PRICE_SERVICE, "/api/product-prices/" + params);
+            return gatewayService.get(request, Services.PRICE_SERVICE, "/api/product-prices/", params);
         }
     }
 

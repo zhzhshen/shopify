@@ -26,7 +26,7 @@ public class GatewayService {
         return client.getServiceInstanceUrl(serviceId);
     }
 
-    public ResponseEntity post(String serviceId, String url, Object object) {
+    public ResponseEntity post(HttpServletRequest request, String serviceId, String url, Object object) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Content-Type", "application/json");
 
@@ -38,7 +38,10 @@ public class GatewayService {
         }
 
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.exchange(getServiceInstanceUrl(serviceId) + url, HttpMethod.POST, httpEntity, String.class);
+        return restTemplate.exchange(getServiceInstanceUrl(serviceId) + formatUrl(request, url, Collections.emptyMap()),
+                HttpMethod.POST,
+                httpEntity,
+                String.class);
     }
 
     public ResponseEntity get(HttpServletRequest request, String serviceId, String url) {
@@ -56,7 +59,7 @@ public class GatewayService {
     private String formatUrl(HttpServletRequest request, String url, Map<String, String> params) {
         String token = retrieveToken(request);
         UriComponentsBuilder builder = UriComponentsBuilder.fromPath(url).queryParam("access_token", token);
-        params.keySet().stream().forEach(key -> builder.queryParam(key, params.get(key)));
+        params.keySet().forEach(key -> builder.queryParam(key, params.get(key)));
         return builder.toUriString();
     }
 
