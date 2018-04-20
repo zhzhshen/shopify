@@ -1,24 +1,17 @@
 {
-  "name": "price-lib",
+  "name": "portal",
   "version": "1.0.0",
-  "description": "The micro front-end for price service of shopify",
+  "description": "The UI portal for shopify",
   "author": "Sid <sidchina.ire@gmail.com>",
-  "private": false,
-  "main": "dist/price-lib.min.js",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "element-ui": "^2.3.4",
-    "lodash": "^4.17.5",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
