@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <a href="http://localhost:9999/oauth/authorize?client_id=shopify&client_secret=client&redirect_uri=http://localhost:3000/login&response_type=code">Login</a>
     <router-view/>
   </div>
 </template>

@@ -14,6 +14,9 @@ security:
       client-secret: shopify
       scope: read,write
       auto-approve-scopes: '.*'
+      registered-redirect-uri: http://localhost:3000
+      pre-established-redirect-uri: http://localhost:3000
+      use-current-uri: false
 
 github:
   client:
