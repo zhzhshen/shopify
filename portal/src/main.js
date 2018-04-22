@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import ProductLib from 'product-lib'
 import 'product-lib/dist/product-lib.min.css'
 import PriceLib from 'price-lib'
@@ -16,6 +17,7 @@ Vue.use(PriceLib)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
