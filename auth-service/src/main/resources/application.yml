@@ -14,8 +14,8 @@ security:
       client-secret: shopify
       scope: read,write
       auto-approve-scopes: '.*'
-      registered-redirect-uri: http://localhost:3000
-      pre-established-redirect-uri: http://localhost:3000
+      registered-redirect-uri: http://localhost:8080/shopify/login
+      pre-established-redirect-uri: http://localhost:8080/shopify/login
       use-current-uri: false
 
 github:

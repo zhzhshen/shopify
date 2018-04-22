@@ -23,7 +23,7 @@ export default {
   methods: {
     getProductList () {
       axios.request({
-        url: "http://localhost:8080/products/",
+        url: "http://localhost:8080/shopify/products/",
         method: "get",
         withCredentials:true
       })

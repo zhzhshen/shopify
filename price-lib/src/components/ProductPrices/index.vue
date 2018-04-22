@@ -41,8 +41,8 @@
     methods: {
       getProductPriceList() {
         axios.all([
-          axios.get(`http://localhost:8080/products/${this.productId}/`),
-          axios.get(`http://localhost:8080/products/${this.productId}/prices/`)
+          axios.get(`http://localhost:8080/shopify/products/${this.productId}/`),
+          axios.get(`http://localhost:8080/shopify/products/${this.productId}/prices/`)
         ])
           .then(responses => {
             this.product = responses[0].data

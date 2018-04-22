@@ -21,7 +21,6 @@
     <modules>
         <module>eureka-service</module>
         <module>auth-service</module>
-        <module>token-service</module>
         <module>bff</module>
         <module>gateway-service</module>
         <module>product-service</module>

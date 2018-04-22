@@ -54,7 +54,7 @@
         })
       },
       createProductPrice() {
-        axios.post(`http://localhost:8080/products/${this.form.productId}/prices/`,
+        axios.post(`http://localhost:8080/shopify/products/${this.form.productId}/prices/`,
           {
             'price': this.form.price,
             'effectedAt': this.form.effectedAt

@@ -11,7 +11,7 @@
       if (!_.isEmpty(code)) {
         axios.request({
           method: "post",
-          url: `http://localhost:9999/oauth/token?code=${code}&client_id=shopify&client_secret=shopify&grant_type=authorization_code&redirect_uri=http://localhost:3000/login`,
+          url: `http://localhost:8080/shopify/oauth/token?code=${code}&client_id=shopify&client_secret=shopify&grant_type=authorization_code&redirect_uri=http://localhost:3000/login`,
           withCredentials: true
         })
           .then(resp => {

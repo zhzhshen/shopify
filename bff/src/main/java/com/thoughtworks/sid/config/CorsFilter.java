@@ -1,4 +1,4 @@
-package com.thoughtworks.sid;
+package com.thoughtworks.sid.config;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
