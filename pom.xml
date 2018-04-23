@@ -26,6 +26,7 @@
         <module>product-service</module>
         <module>price-service</module>
         <module>inventory-service</module>
+        <module>order-service</module>
     </modules>
 
     <properties>

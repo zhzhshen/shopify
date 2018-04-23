@@ -61,9 +61,9 @@
 
 ### Order Service (BE: 145min/ FE: 180min)
 1. business logic
-	+ POST `/orders` 30min
-	+ GET `/orders` 10min
-	+ GET `/orders/{order_id}` 10min
+	+ [x] POST `/orders` 30min 52min
+	+ [x] GET `/orders` 10min 7min
+	+ [x] GET `/orders/{order_id}` 10min 3min
 	+ GET `/orders/{order_id}/items` 10min
 	+ GET `/orders/{order_id}/items/{item_id}` 10min
 	+ POST `/orders/{order_id}/payment` 15min
