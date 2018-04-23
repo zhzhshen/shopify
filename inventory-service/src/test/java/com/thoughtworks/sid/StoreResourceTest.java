@@ -26,18 +26,18 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.security.Principal;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class StoreResourceTest {
 
-    final Long STORE_ID = 1L;
-    final String OWNER = "Sid";
-    final String STORE_URL = "/api/stores/";
-    final Store VALID_STORE = new Store(OWNER, "Sid's Store", "This is szz's store");
-    final Store SAVED_STORE = new Store(STORE_ID, OWNER, "Sid's Store", "This is szz's store");
+    private final Long STORE_ID = 1L;
+    private final String OWNER = "Sid";
+    private final String STORE_URL = "/api/stores/";
+    private final Store VALID_STORE = new Store(OWNER, "Sid's Store", "This is szz's store");
+    private final Store SAVED_STORE = new Store(STORE_ID, OWNER, "Sid's Store", "This is szz's store");
 
     private MockMvc mvc;
 
@@ -45,12 +45,12 @@ public class StoreResourceTest {
     private StoresController storesController;
 
     @Mock
-    StoreRepository storeRepository;
+    private StoreRepository storeRepository;
 
     @Autowired
     ObjectMapper objectMapper;
 
-    Principal principal = Mockito.mock(Principal.class);
+    private Principal principal = Mockito.mock(Principal.class);
 
     @Before
     public void before() {
@@ -122,7 +122,7 @@ public class StoreResourceTest {
 
     @Test
     public void should_success_to_get_store_list() throws Exception {
-        List<Store> stores = Arrays.asList(SAVED_STORE);
+        List<Store> stores = Collections.singletonList(SAVED_STORE);
         when(storeRepository.getAllByOwner(OWNER)).thenReturn(stores);
         RequestBuilder requestBuilder = get(STORE_URL).principal(principal);
         mvc.perform(requestBuilder)

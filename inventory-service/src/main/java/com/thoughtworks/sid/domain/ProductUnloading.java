@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ProductLoading")
-@ApiModel("Product Loading model")
-public class ProductLoading {
+@Table(name = "ProductUnloading")
+@ApiModel("Product Unloading model")
+public class ProductUnloading {
     @ApiModelProperty("ID")
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -20,18 +20,26 @@ public class ProductLoading {
     @ApiModelProperty("product id")
     private Long productId;
 
+    @ApiModelProperty("order item id")
+    private Long orderItemId;
+
     @ApiModelProperty("库存")
     private Integer stock;
 
-    public ProductLoading() {
+    @ApiModelProperty("出库状态")
+    private String state;
+
+    public ProductUnloading() {
     }
 
-    public ProductLoading(Integer stock) {
+    public ProductUnloading(Long storeId, Integer stock) {
+        this.storeId = storeId;
         this.stock = stock;
     }
 
-    public ProductLoading(Long id, Integer stock) {
+    public ProductUnloading(Long id, Long orderItemId, Integer stock) {
         this.id = id;
+        this.orderItemId = orderItemId;
         this.stock = stock;
     }
 
@@ -57,5 +65,21 @@ public class ProductLoading {
 
     public Integer getStock() {
         return stock;
+    }
+
+    public void cancel() {
+        this.state = "CANCELLED";
+    }
+
+    public boolean isCancelled() {
+        return "CANCELLED".equals(this.state);
+    }
+
+    public void confirm() {
+        this.state = "CONFIRMED";
+    }
+
+    public boolean isConfirmed() {
+        return "CONFIRMED".equals(this.state);
     }
 }

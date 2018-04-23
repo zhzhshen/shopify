@@ -45,8 +45,9 @@
 	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/loadings` 15min 30min(create new inventory)
 	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/loadings` 10min 5min
 	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/loadings/{loading_id}` 10min 3min
-	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests` 15min
-	+ GET `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}` 10min
+	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests` 15min 11min
+	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/unloading-requests` 15min 4min
+	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}` 10min 4min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/confirmation` 10min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/cancellation` 10min
 2. front end lib

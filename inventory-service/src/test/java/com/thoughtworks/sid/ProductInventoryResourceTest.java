@@ -21,8 +21,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -35,14 +34,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class ProductInventoryResourceTest {
 
-    final Long STORE_ID = 1L;
-    final Long PRODUCT_ID = 1L;
-    final Long INVENTORY_ID = 1L;
-    final String OWNER = "Sid";
-    final Store SAVED_STORE = new Store(STORE_ID, OWNER, "Sid's Store", "This is szz's store");
-    final Inventory INVENTORY = new Inventory(STORE_ID, PRODUCT_ID, 10);
-    final Inventory SAVED_INVENTORY = new Inventory(INVENTORY_ID, STORE_ID, PRODUCT_ID, 10);
-    final String INVENTORY_URL = "/api/stores/" + STORE_ID + "/products/" + PRODUCT_ID + "/inventories/";
+    private final Long STORE_ID = 1L;
+    private final Long PRODUCT_ID = 1L;
+    private final Long INVENTORY_ID = 1L;
+    private final String OWNER = "Sid";
+    private final Store SAVED_STORE = new Store(STORE_ID, OWNER, "Sid's Store", "This is szz's store");
+    private final Inventory INVENTORY = new Inventory(10);
+    private final Inventory SAVED_INVENTORY = new Inventory(INVENTORY_ID, 10);
+    private final String INVENTORY_URL = "/api/stores/" + STORE_ID + "/products/" + PRODUCT_ID + "/inventories/";
 
     private MockMvc mvc;
 
@@ -50,15 +49,15 @@ public class ProductInventoryResourceTest {
     private ProductInventoryController inventoryController;
 
     @Mock
-    StoreRepository storeRepository;
+    private StoreRepository storeRepository;
 
     @Mock
-    InventoryRepository inventoryRepository;
+    private InventoryRepository inventoryRepository;
 
     @Autowired
     ObjectMapper objectMapper;
 
-    Principal principal = Mockito.mock(Principal.class);
+    private Principal principal = Mockito.mock(Principal.class);
 
     @Before
     public void before() {
@@ -76,7 +75,7 @@ public class ProductInventoryResourceTest {
 
     @Test
     public void should_get_200_to_get_stores_with_principal() throws Exception {
-        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
+        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_INVENTORY));
         RequestBuilder requestBuilder = get(INVENTORY_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk());
@@ -85,7 +84,7 @@ public class ProductInventoryResourceTest {
     @Test
     public void should_success_to_create_inventory() throws Exception {
         when(inventoryRepository.save(any(Inventory.class))).thenReturn(SAVED_INVENTORY);
-        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
+        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_INVENTORY));
 
         RequestBuilder requestBuilder = post(INVENTORY_URL).principal(principal)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -96,7 +95,7 @@ public class ProductInventoryResourceTest {
         requestBuilder = get(INVENTORY_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_INVENTORY))))
+                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(SAVED_INVENTORY))))
                 .andReturn();
     }
 
@@ -131,12 +130,12 @@ public class ProductInventoryResourceTest {
 
     @Test
     public void should_success_to_get_inventory_list() throws Exception {
-        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
+        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_INVENTORY));
 
         RequestBuilder requestBuilder = get(INVENTORY_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_INVENTORY))))
+                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(SAVED_INVENTORY))))
                 .andReturn();
     }
 }

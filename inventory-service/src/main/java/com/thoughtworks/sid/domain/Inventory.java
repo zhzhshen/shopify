@@ -32,29 +32,16 @@ public class Inventory {
     public Inventory() {
     }
 
-    public Inventory(Long storeId, Long productId, Integer stock) {
-        this.storeId = storeId;
-        this.productId = productId;
+    public Inventory(Integer stock) {
         this.stock = stock;
     }
 
-    public Inventory(Long id, Long storeId, Long productId, Integer stock) {
+    public Inventory(Long id, Integer stock) {
         this.id = id;
-        this.storeId = storeId;
-        this.productId = productId;
         this.stock = stock;
     }
 
     public Inventory(Long storeId, Long productId, Integer stock, String causeBy, Long causeById) {
-        this.storeId = storeId;
-        this.productId = productId;
-        this.stock = stock;
-        this.causeBy = causeBy;
-        this.causeById = causeById;
-    }
-
-    public Inventory(Long id, Long storeId, Long productId, Integer stock, String causeBy, Long causeById) {
-        this.id = id;
         this.storeId = storeId;
         this.productId = productId;
         this.stock = stock;
