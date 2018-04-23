@@ -9,7 +9,6 @@ import 'product-lib/dist/product-lib.min.css'
 import PriceLib from 'price-lib'
 import 'price-lib/dist/price-lib.min.css'
 
-
 Vue.config.productionTip = false
 Vue.use(ProductLib)
 Vue.use(PriceLib)

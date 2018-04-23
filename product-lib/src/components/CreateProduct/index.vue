@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {createProduct} from '@/api/index'
 
 export default {
   name: 'create-product',
@@ -44,12 +44,7 @@ export default {
       })
     },
     createProduct () {
-      axios.request({
-        url: "http://localhost:8080/shopify/products/",
-        method: "post",
-        data: {'name': this.form.name, 'description': this.form.description},
-        withCredentials:true
-      })
+      createProduct(this.form.name, this.form.description)
         .then(resp => { console.info('success to create product', resp.data) })
         .catch(error => { console.error('error in creating product'); console.log(error) })
     }

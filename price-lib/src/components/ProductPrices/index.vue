@@ -26,6 +26,7 @@
 </template>
 
 <script>
+  import {getProductList, getProductPriceList} from '@/api'
   import axios from 'axios'
   import _ from 'lodash'
 
@@ -41,8 +42,8 @@
     methods: {
       getProductPriceList() {
         axios.all([
-          axios.get(`http://localhost:8080/shopify/products/${this.productId}/`),
-          axios.get(`http://localhost:8080/shopify/products/${this.productId}/prices/`)
+          getProductList(this.productId),
+          getProductPriceList(this.productId)
         ])
           .then(responses => {
             this.product = responses[0].data
@@ -53,7 +54,7 @@
             console.log(error)
           })
       },
-      getProductInfo (key) {
+      getProductInfo(key) {
         return _.result(this.product, key)
       },
       formatDate(timestamp) {

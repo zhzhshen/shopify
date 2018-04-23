@@ -1,5 +1,6 @@
 <template>
-  <el-form ref="createProductPriceForm" :rules="rules" label-position="left" label-width="120px" :model="form" style="width: 400px;">
+  <el-form ref="createProductPriceForm" :rules="rules" label-position="left" label-width="120px" :model="form"
+           style="width: 400px;">
     <el-form-item label="产品" prop="productId">
       <product-select v-model="form.productId" style="width: 100%;"/>
     </el-form-item>
@@ -8,9 +9,9 @@
     </el-form-item>
     <el-form-item label="价格生效日期" prop="effectedAt">
       <el-date-picker style="width: 100%;"
-        v-model="form.effectedAt"
-        type="date"
-        placeholder="选择日期">
+                      v-model="form.effectedAt"
+                      type="date"
+                      placeholder="选择日期">
       </el-date-picker>
     </el-form-item>
     <el-button @click="submit">创建产品价格</el-button>
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+  import {createProductPrice} from "@/api";
   import axios from 'axios'
 
   export default {
@@ -54,11 +56,7 @@
         })
       },
       createProductPrice() {
-        axios.post(`http://localhost:8080/shopify/products/${this.form.productId}/prices/`,
-          {
-            'price': this.form.price,
-            'effectedAt': this.form.effectedAt
-          })
+        createProductPrice(this.form.productId, this.form.price, this.form.effectedAt)
           .then(resp => {
             console.info('success to create product price', resp.data)
           })

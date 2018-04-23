@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import {getProductList} from '@/api/index'
 
 export default {
   name: 'product-list',
@@ -22,12 +22,7 @@ export default {
   },
   methods: {
     getProductList () {
-      axios.request({
-        url: "http://localhost:8080/shopify/products/",
-        method: "get",
-        withCredentials:true
-      })
-      // axios.get('http://localhost:8080/products/')
+      getProductList()
         .then(resp => { this.products = resp.data })
         .catch(error => { console.error('error in getting product list'); console.log(error) })
     }
