@@ -32,7 +32,7 @@ public class ProductInventoryController {
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Store> createStore(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
+    public ResponseEntity<Store> createInventory(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
                                              @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
                                              @RequestBody Inventory inventory,
                                              UriComponentsBuilder uriBuilder,
@@ -58,7 +58,7 @@ public class ProductInventoryController {
 
     @ApiOperation(value = "获取库存单列表")
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity getStore(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
+    public ResponseEntity getInventories(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
                                    @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
                                    Principal principal) {
         if (principal == null) {
@@ -74,9 +74,27 @@ public class ProductInventoryController {
         return new ResponseEntity(allInventories, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "获取最新库存信息")
+    @RequestMapping(value = "/latest", method = RequestMethod.GET)
+    public ResponseEntity<Store> getLatestInventory(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
+                                          @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
+                                          Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        Store store = storeRepository.getByOwnerAndId(principal.getName(), Long.valueOf(storeId));
+        if (store == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        Inventory inventory = inventoryRepository.getByStoreIdAndProductIdOrderByIdDesc(Long.valueOf(storeId), Long.valueOf(productId));
+        return new ResponseEntity(inventory, inventory != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
     @ApiOperation(value = "获取库存信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Store> getStore(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
+    public ResponseEntity<Store> getInventory(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
                                           @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
                                           @ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
                                           Principal principal) {

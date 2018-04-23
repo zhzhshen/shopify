@@ -42,9 +42,9 @@
 	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/inventories` 15min 21min(nested resource)
 	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/inventories` 10min 8min
 	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/inventories/{inv_id}` 10min 5min
-	+ POST `/stores/{store_id}/products/{prodcut_id}/loadings` 15min
-	+ GET `/stores/{store_id}/products/{prodcut_id}/loadings` 10min
-	+ GET `/stores/{store_id}/products/{prodcut_id}/loadings/{loading_id}` 10min
+	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/loadings` 15min 30min(create new inventory)
+	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/loadings` 10min 5min
+	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/loadings/{loading_id}` 10min 3min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests` 15min
 	+ GET `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}` 10min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/confirmation` 10min

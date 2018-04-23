@@ -23,6 +23,12 @@ public class Inventory {
     @ApiModelProperty("库存")
     private Integer stock;
 
+    @ApiModelProperty("库存变化原因")
+    private String causeBy;
+
+    @ApiModelProperty("库存变化原因ID")
+    private Long causeById;
+
     public Inventory() {
     }
 
@@ -37,6 +43,23 @@ public class Inventory {
         this.storeId = storeId;
         this.productId = productId;
         this.stock = stock;
+    }
+
+    public Inventory(Long storeId, Long productId, Integer stock, String causeBy, Long causeById) {
+        this.storeId = storeId;
+        this.productId = productId;
+        this.stock = stock;
+        this.causeBy = causeBy;
+        this.causeById = causeById;
+    }
+
+    public Inventory(Long id, Long storeId, Long productId, Integer stock, String causeBy, Long causeById) {
+        this.id = id;
+        this.storeId = storeId;
+        this.productId = productId;
+        this.stock = stock;
+        this.causeBy = causeBy;
+        this.causeById = causeById;
     }
 
     public Long getId() {

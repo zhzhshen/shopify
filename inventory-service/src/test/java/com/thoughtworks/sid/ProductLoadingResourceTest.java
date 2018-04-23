@@ -1,11 +1,14 @@
 package com.thoughtworks.sid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.sid.controller.ProductInventoryController;
 import com.thoughtworks.sid.controller.ProductLoadingController;
 import com.thoughtworks.sid.domain.ProductLoading;
 import com.thoughtworks.sid.domain.Store;
+import com.thoughtworks.sid.repository.InventoryRepository;
 import com.thoughtworks.sid.repository.ProductLoadingRepository;
 import com.thoughtworks.sid.repository.StoreRepository;
+import com.thoughtworks.sid.service.InventoryService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +23,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.inject.Inject;
 import java.security.Principal;
 import java.util.Arrays;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -48,11 +54,20 @@ public class ProductLoadingResourceTest {
     @InjectMocks
     private ProductLoadingController productLoadingController;
 
+    @InjectMocks
+    private ProductInventoryController productInventoryController;
+
     @Mock
     StoreRepository storeRepository;
 
     @Mock
     ProductLoadingRepository productLoadingRepository;
+
+    @Mock
+    InventoryService inventoryService;
+
+    @Mock
+    InventoryRepository inventoryRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -63,7 +78,7 @@ public class ProductLoadingResourceTest {
     public void before() {
         when(principal.getName()).thenReturn(OWNER);
         when(storeRepository.getByOwnerAndId(OWNER, STORE_ID)).thenReturn(SAVED_STORE);
-        this.mvc = MockMvcBuilders.standaloneSetup(productLoadingController).build();
+        this.mvc = MockMvcBuilders.standaloneSetup(productLoadingController, productInventoryController).build();
     }
 
     @Test
@@ -97,6 +112,13 @@ public class ProductLoadingResourceTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_PRODUCT_LOADING))))
                 .andReturn();
+    }
+
+    @Test
+    public void should_successful_product_loading_create_new_inventory() throws Exception {
+        should_success_to_create_product_loading();
+
+        verify(inventoryService, times(1)).loading(SAVED_PRODUCT_LOADING);
     }
 
     @Test

@@ -120,6 +120,16 @@ public class ProductInventoryResourceTest {
     }
 
     @Test
+    public void should_success_to_find_latest_inventory() throws Exception {
+        when(inventoryRepository.getByStoreIdAndProductIdOrderByIdDesc(STORE_ID, PRODUCT_ID)).thenReturn(SAVED_INVENTORY);
+        RequestBuilder requestBuilder = get(INVENTORY_URL + "latest").principal(principal);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_INVENTORY)))
+                .andReturn();
+    }
+
+    @Test
     public void should_success_to_get_inventory_list() throws Exception {
         when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
 

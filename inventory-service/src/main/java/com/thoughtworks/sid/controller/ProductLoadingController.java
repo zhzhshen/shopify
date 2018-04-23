@@ -4,6 +4,7 @@ import com.thoughtworks.sid.domain.ProductLoading;
 import com.thoughtworks.sid.domain.Store;
 import com.thoughtworks.sid.repository.ProductLoadingRepository;
 import com.thoughtworks.sid.repository.StoreRepository;
+import com.thoughtworks.sid.service.InventoryService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class ProductLoadingController {
     @Autowired
     StoreRepository storeRepository;
 
+    @Autowired
+    InventoryService inventoryService;
+
     @ApiOperation(value = "创建入库单")
     @RequestMapping(value = "/",
             method = RequestMethod.POST,
@@ -49,6 +53,7 @@ public class ProductLoadingController {
         productLoading.setStoreId(Long.valueOf(storeId));
         productLoading.setProductId(Long.valueOf(productId));
         ProductLoading savedProductLoading = productLoadingRepository.save(productLoading);
+        inventoryService.loading(savedProductLoading);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriBuilder.path("/api/stores/{storeId}/products/{productId}/loadings/{id}")
                 .buildAndExpand(savedProductLoading.getStoreId(), savedProductLoading.getProductId(), savedProductLoading.getId())
