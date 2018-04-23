@@ -25,6 +25,10 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItemList;
 
+    @ApiModelProperty("总金额")
+    @OneToOne
+    private Payment payment;
+
     public Order() {
     }
 
@@ -39,6 +43,14 @@ public class Order {
         this.customer = customer;
         this.amount = amount;
         this.orderItemList = orderItemList;
+    }
+
+    public Order(Long id, String customer, Double amount, List<OrderItem> orderItemList, Payment payment) {
+        this.id = id;
+        this.customer = customer;
+        this.amount = amount;
+        this.orderItemList = orderItemList;
+        this.payment = payment;
     }
 
     public Long getId() {
@@ -63,5 +75,13 @@ public class Order {
 
     public void setCustomer(String customer) {
         this.customer = customer;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 }
