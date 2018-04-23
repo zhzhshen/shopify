@@ -23,4 +23,10 @@ public class InventoryService {
         Integer currentStock = latestInventory != null ? latestInventory.getStock() : 0;
         inventoryRepository.save(new Inventory(unloading.getStoreId(), unloading.getProductId(), currentStock - unloading.getStock(), "unloading", unloading.getId()));
     }
+
+    public void cancelUnloading(ProductUnloading unloading) {
+        Inventory latestInventory = inventoryRepository.getByStoreIdAndProductIdOrderByIdDesc(unloading.getStoreId(), unloading.getProductId());
+        Integer currentStock = latestInventory != null ? latestInventory.getStock() : 0;
+        inventoryRepository.save(new Inventory(unloading.getStoreId(), unloading.getProductId(), currentStock + unloading.getStock(), "unloading cancellation", unloading.getId()));
+    }
 }

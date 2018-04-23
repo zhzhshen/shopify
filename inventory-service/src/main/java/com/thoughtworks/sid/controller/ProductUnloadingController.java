@@ -98,4 +98,47 @@ public class ProductUnloadingController {
         ProductUnloading productUnloading = productUnloadingRepository.getByIdAndStoreIdAndProductId(Long.valueOf(id), Long.valueOf(storeId), Long.valueOf(productId));
         return new ResponseEntity(productUnloading, productUnloading != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
+
+    @ApiOperation(value = "确认出库单")
+    @RequestMapping(value = "/{id}/confirmation", method = RequestMethod.POST)
+    public ResponseEntity<Store> confirmUnloading(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
+                                          @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
+                                          @ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
+                                          Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        Store store = storeRepository.getByOwnerAndId(principal.getName(), Long.valueOf(storeId));
+        if (store == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        ProductUnloading productUnloading = productUnloadingRepository.getByIdAndStoreIdAndProductId(Long.valueOf(id), Long.valueOf(storeId), Long.valueOf(productId));
+        productUnloading.confirm();
+        ProductUnloading savedUnloading = productUnloadingRepository.save(productUnloading);
+        return new ResponseEntity(savedUnloading, savedUnloading != null ? HttpStatus.CREATED : HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "取消出库单")
+    @RequestMapping(value = "/{id}/cancellation", method = RequestMethod.POST)
+    public ResponseEntity<Store> cancelUnloading(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
+                                                  @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
+                                                  @ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
+                                                  Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        Store store = storeRepository.getByOwnerAndId(principal.getName(), Long.valueOf(storeId));
+        if (store == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        ProductUnloading productUnloading = productUnloadingRepository.getByIdAndStoreIdAndProductId(Long.valueOf(id), Long.valueOf(storeId), Long.valueOf(productId));
+        productUnloading.cancel();
+        ProductUnloading savedUnloading = productUnloadingRepository.save(productUnloading);
+        inventoryService.cancelUnloading(savedUnloading);
+        return new ResponseEntity(savedUnloading, savedUnloading != null ? HttpStatus.CREATED : HttpStatus.NOT_FOUND);
+    }
 }

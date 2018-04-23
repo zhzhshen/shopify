@@ -48,8 +48,8 @@
 	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests` 15min 11min
 	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/unloading-requests` 15min 4min
 	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}` 10min 4min
-	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/confirmation` 10min
-	+ POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/cancellation` 10min
+	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/confirmation` 10min 4min
+	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/unloading-requests/{req_id}/cancellation` 10min 7min
 2. front end lib
 	+ `<create-store>` 30min
 	+ `<store-list>` 30min

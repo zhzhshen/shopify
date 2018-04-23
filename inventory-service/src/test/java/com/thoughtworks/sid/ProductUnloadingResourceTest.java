@@ -38,11 +38,11 @@ public class ProductUnloadingResourceTest {
     private final Long ORDER_ITEM_ID = 1L;
     private final Long STORE_ID = 1L;
     private final Long PRODUCT_ID = 1L;
-    private final Long PRODUCT_LOADING_ID = 1L;
+    private final Long PRODUCT_UNLOADING_ID = 1L;
     private final String OWNER = "Sid";
     private final Store SAVED_STORE = new Store(STORE_ID, OWNER, "Sid's Store", "This is szz's store");
-    private final ProductUnloading PRODUCT_LOADING = new ProductUnloading(ORDER_ITEM_ID, 100);
-    private final ProductUnloading SAVED_PRODUCT_LOADING = new ProductUnloading(PRODUCT_LOADING_ID, ORDER_ITEM_ID, 100);
+    private final ProductUnloading PRODUCT_UNLOADING = new ProductUnloading(ORDER_ITEM_ID, 100);
+    private final ProductUnloading SAVED_PRODUCT_UNLOADING = new ProductUnloading(PRODUCT_UNLOADING_ID, ORDER_ITEM_ID, 100);
     private final String PRODUCT_UNLOADING_URL = "/api/stores/" + STORE_ID + "/products/" + PRODUCT_ID + "/unloadings/";
 
     private MockMvc mvc;
@@ -80,7 +80,7 @@ public class ProductUnloadingResourceTest {
 
     @Test
     public void should_get_200_to_get_stores_with_principal() throws Exception {
-        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_LOADING));
+        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_UNLOADING));
         RequestBuilder requestBuilder = get(PRODUCT_UNLOADING_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk());
@@ -88,19 +88,19 @@ public class ProductUnloadingResourceTest {
 
     @Test
     public void should_success_to_create_product_loading() throws Exception {
-        when(productUnloadingRepository.save(any(ProductUnloading.class))).thenReturn(SAVED_PRODUCT_LOADING);
-        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_LOADING));
+        when(productUnloadingRepository.save(any(ProductUnloading.class))).thenReturn(SAVED_PRODUCT_UNLOADING);
+        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_UNLOADING));
 
         RequestBuilder requestBuilder = post(PRODUCT_UNLOADING_URL).principal(principal)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(PRODUCT_LOADING));
+                .content(objectMapper.writeValueAsString(PRODUCT_UNLOADING));
         mvc.perform(requestBuilder)
                 .andExpect(status().isCreated());
 
         requestBuilder = get(PRODUCT_UNLOADING_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(SAVED_PRODUCT_LOADING))))
+                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(SAVED_PRODUCT_UNLOADING))))
                 .andReturn();
     }
 
@@ -108,12 +108,12 @@ public class ProductUnloadingResourceTest {
     public void should_successful_product_loading_create_new_inventory() throws Exception {
         should_success_to_create_product_loading();
 
-        verify(inventoryService, times(1)).unloading(SAVED_PRODUCT_LOADING);
+        verify(inventoryService, times(1)).unloading(SAVED_PRODUCT_UNLOADING);
     }
 
     @Test
     public void should_fail_to_find_inexist_product_loading() throws Exception {
-        RequestBuilder requestBuilder = get(PRODUCT_UNLOADING_URL + PRODUCT_LOADING_ID).principal(principal);
+        RequestBuilder requestBuilder = get(PRODUCT_UNLOADING_URL + PRODUCT_UNLOADING_ID).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isNotFound())
                 .andReturn();
@@ -122,22 +122,48 @@ public class ProductUnloadingResourceTest {
     @Test
     public void should_success_to_find_existing_product_loading() throws Exception {
         should_success_to_create_product_loading();
-        when(productUnloadingRepository.getByIdAndStoreIdAndProductId(PRODUCT_LOADING_ID, STORE_ID, PRODUCT_ID)).thenReturn(SAVED_PRODUCT_LOADING);
-        RequestBuilder requestBuilder = get(PRODUCT_UNLOADING_URL + PRODUCT_LOADING_ID).principal(principal);
+        when(productUnloadingRepository.getByIdAndStoreIdAndProductId(PRODUCT_UNLOADING_ID, STORE_ID, PRODUCT_ID)).thenReturn(SAVED_PRODUCT_UNLOADING);
+        RequestBuilder requestBuilder = get(PRODUCT_UNLOADING_URL + PRODUCT_UNLOADING_ID).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_PRODUCT_LOADING)))
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_PRODUCT_UNLOADING)))
                 .andReturn();
     }
 
     @Test
     public void should_success_to_get_product_loading_list() throws Exception {
-        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_LOADING));
+        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_UNLOADING));
 
         RequestBuilder requestBuilder = get(PRODUCT_UNLOADING_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(SAVED_PRODUCT_LOADING))))
+                .andExpect(content().json(objectMapper.writeValueAsString(Collections.singletonList(SAVED_PRODUCT_UNLOADING))))
                 .andReturn();
+    }
+
+    @Test
+    public void should_success_confirm_uploading() throws Exception {
+        when(productUnloadingRepository.getByIdAndStoreIdAndProductId(PRODUCT_UNLOADING_ID, STORE_ID, PRODUCT_ID)).thenReturn(SAVED_PRODUCT_UNLOADING);
+        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_UNLOADING));
+        when(productUnloadingRepository.save(any(ProductUnloading.class))).thenReturn(SAVED_PRODUCT_UNLOADING);
+
+        RequestBuilder requestBuilder = post(PRODUCT_UNLOADING_URL + PRODUCT_UNLOADING_ID + "/confirmation").principal(principal);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isCreated())
+                .andReturn();
+    }
+
+    @Test
+    public void should_success_cancel_uploading() throws Exception {
+        when(productUnloadingRepository.getByIdAndStoreIdAndProductId(PRODUCT_UNLOADING_ID, STORE_ID, PRODUCT_ID)).thenReturn(SAVED_PRODUCT_UNLOADING);
+        when(productUnloadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Collections.singletonList(SAVED_PRODUCT_UNLOADING));
+        when(productUnloadingRepository.save(any(ProductUnloading.class))).thenReturn(SAVED_PRODUCT_UNLOADING);
+
+        RequestBuilder requestBuilder = post(PRODUCT_UNLOADING_URL + PRODUCT_UNLOADING_ID + "/cancellation").principal(principal);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        verify(inventoryService, times(1)).cancelUnloading(SAVED_PRODUCT_UNLOADING);
     }
 }
