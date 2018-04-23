@@ -1,5 +1,16 @@
 version: '3'
 services:
+    eureka:
+        restart: always
+        container_name: eureka
+        hostname: eureka
+        build:
+            context: ./eureka-service
+            dockerfile: deployment/Dockerfile
+        expose:
+            - "8761"
+        ports:
+            - 8761:8761
     product-service:
         restart: always
         container_name: product-service
@@ -32,6 +43,23 @@ services:
             - eureka
         depends_on:
             - price-service-db
+            - auth-service
+            - eureka
+    inventory-service:
+        restart: always
+        container_name: inventory-service
+        hostname: inventory-service
+        build:
+            context: ./inventory-service
+            dockerfile: deployment/Dockerfile
+        ports:
+            - 8083:8083
+        links:
+            - inventory-service-db
+            - auth-service
+            - eureka
+        depends_on:
+            - inventory-service-db
             - auth-service
             - eureka
     auth-service:
@@ -105,14 +133,16 @@ services:
             MYSQL_DATABASE: price_service
             MYSQL_USER: root
             MYSQL_PASSWORD: root
-    eureka:
+    inventory-service-db:
         restart: always
-        container_name: eureka
-        hostname: eureka
-        build:
-            context: ./eureka-service
-            dockerfile: deployment/Dockerfile
+        container_name: inventory-service-db
+        image: mysql
         expose:
-            - "8761"
-        ports:
-            - 8761:8761
+            - "3306"
+        volumes:
+            - ./inventory-service/deployment/db:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: inventory_service
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root

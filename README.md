@@ -8,7 +8,7 @@
 + backend 30min
 + micro fontend 4h
 
-### eureka server (30min)
+### eureka server (30min 5min)
 
 ### User Service (BE: 120min)
 + Spike OAuth 1h
@@ -16,29 +16,29 @@
 
 ### Product Service (BE: 35min/ FE: 60min)
 1. business logic
-	+ [x] POST `/products` 15min
-	+ [x] GET `/products` 10min
-	+ [x] GET `/products/{product_id}` 10min
+	+ [x] POST `/products` 15min 20min
+	+ [x] GET `/products` 10min 6min
+	+ [x] GET `/products/{product_id}` 10min 5min
 2. front end lib
-	+ [x] `<create-product>` element 30min
-	+ [x] `<product-list>` element 30min
-	+ [x] `<product-select>` element 30min
+	+ [x] `<create-product>` element 30min 16min
+	+ [x] `<product-list>` element 30min 10min
+	+ [x] `<product-select>` element 30min 10min + 27min(v-model)
 
 ### Price Service (BE: 35min/ FE: 60min)
 1. business logic
-	+ [x] POST `/product-prices` 15min
-	+ [x] GET `/product-prices?productId=` 10min
-	+ [x] GET `/product-prices/{price_id}` 10min
-	+ [x] GET `/product-prices/latest` 10min
+	+ [x] POST `/product-prices` 15min 13min
+	+ [x] GET `/product-prices?productId=` 10min 5min
+	+ [x] GET `/product-prices/{price_id}` 10min 5min
+	+ [x] GET `/product-prices/latest` 10min 13min
 2. front end lib
-	+ [x] `<create-product-price>` element 30min
-	+ [x] `<product-prices>` element 30min
+	+ [x] `<create-product-price>` element 30min 10min
+	+ [x] `<product-prices>` element 30min 10min
 
 ### Inventory Service (BE: 140min/ FE: 210min)
 1. business logic
-	+ POST `/stores` 15min
-	+ GET `/stores` 10min
-	+ GET `/stores/{store_id}` 10min
+	+ [x] POST `/stores` 15min 27min (mock principal)
+	+ [x] GET `/stores` 10min 6min
+	+ [x] GET `/stores/{store_id}` 10min 4min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/inventories` 15min
 	+ GET `/stores/{store_id}/products/{prodcut_id}/inventories/{inv_id}` 10min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/loadings` 15min
