@@ -1,10 +1,10 @@
 package com.thoughtworks.sid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.sid.controller.ProductInventoryController;
-import com.thoughtworks.sid.domain.Inventory;
+import com.thoughtworks.sid.controller.ProductLoadingController;
+import com.thoughtworks.sid.domain.ProductLoading;
 import com.thoughtworks.sid.domain.Store;
-import com.thoughtworks.sid.repository.InventoryRepository;
+import com.thoughtworks.sid.repository.ProductLoadingRepository;
 import com.thoughtworks.sid.repository.StoreRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
@@ -33,27 +32,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductInventoryResourceTest {
+public class ProductLoadingResourceTest {
 
     final Long STORE_ID = 1L;
     final Long PRODUCT_ID = 1L;
-    final Long INVENTORY_ID = 1L;
+    final Long PRODUCT_LOADING_ID = 1L;
     final String OWNER = "Sid";
     final Store SAVED_STORE = new Store(STORE_ID, OWNER, "Sid's Store", "This is szz's store");
-    final Inventory INVENTORY = new Inventory(STORE_ID, PRODUCT_ID, 10);
-    final Inventory SAVED_INVENTORY = new Inventory(INVENTORY_ID, STORE_ID, PRODUCT_ID, 10);
-    final String INVENTORY_URL = "/api/stores/" + STORE_ID + "/products/" + PRODUCT_ID + "/inventories/";
+    final ProductLoading PRODUCT_LOADING = new ProductLoading(STORE_ID, PRODUCT_ID, 100);
+    final ProductLoading SAVED_PRODUCT_LOADING = new ProductLoading(PRODUCT_LOADING_ID, STORE_ID, PRODUCT_ID, 100);
+    final String PRODUCT_LOADING_URL = "/api/stores/" + STORE_ID + "/products/" + PRODUCT_ID + "/loadings/";
 
     private MockMvc mvc;
 
     @InjectMocks
-    private ProductInventoryController inventoryController;
+    private ProductLoadingController productLoadingController;
 
     @Mock
     StoreRepository storeRepository;
 
     @Mock
-    InventoryRepository inventoryRepository;
+    ProductLoadingRepository productLoadingRepository;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -64,69 +63,69 @@ public class ProductInventoryResourceTest {
     public void before() {
         when(principal.getName()).thenReturn(OWNER);
         when(storeRepository.getByOwnerAndId(OWNER, STORE_ID)).thenReturn(SAVED_STORE);
-        this.mvc = MockMvcBuilders.standaloneSetup(inventoryController).build();
+        this.mvc = MockMvcBuilders.standaloneSetup(productLoadingController).build();
     }
 
     @Test
     public void should_get_401_to_get_inventories() throws Exception {
-        RequestBuilder requestBuilder = get(INVENTORY_URL);
+        RequestBuilder requestBuilder = get(PRODUCT_LOADING_URL);
         mvc.perform(requestBuilder)
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     public void should_get_200_to_get_stores_with_principal() throws Exception {
-        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
-        RequestBuilder requestBuilder = get(INVENTORY_URL).principal(principal);
+        when(productLoadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_PRODUCT_LOADING));
+        RequestBuilder requestBuilder = get(PRODUCT_LOADING_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void should_success_to_create_inventory() throws Exception {
-        when(inventoryRepository.save(any(Inventory.class))).thenReturn(SAVED_INVENTORY);
-        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
+    public void should_success_to_create_product_loading() throws Exception {
+        when(productLoadingRepository.save(any(ProductLoading.class))).thenReturn(SAVED_PRODUCT_LOADING);
+        when(productLoadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_PRODUCT_LOADING));
 
-        RequestBuilder requestBuilder = post(INVENTORY_URL).principal(principal)
+        RequestBuilder requestBuilder = post(PRODUCT_LOADING_URL).principal(principal)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(INVENTORY));
+                .content(objectMapper.writeValueAsString(PRODUCT_LOADING));
         mvc.perform(requestBuilder)
                 .andExpect(status().isCreated());
 
-        requestBuilder = get(INVENTORY_URL).principal(principal);
+        requestBuilder = get(PRODUCT_LOADING_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_INVENTORY))))
+                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_PRODUCT_LOADING))))
                 .andReturn();
     }
 
     @Test
-    public void should_fail_to_find_inexist_inventory() throws Exception {
-        RequestBuilder requestBuilder = get(INVENTORY_URL + INVENTORY_ID).principal(principal);
+    public void should_fail_to_find_inexist_product_loading() throws Exception {
+        RequestBuilder requestBuilder = get(PRODUCT_LOADING_URL + PRODUCT_LOADING_ID).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
 
     @Test
-    public void should_success_to_find_existing_inventory() throws Exception {
-        should_success_to_create_inventory();
-        when(inventoryRepository.getByIdAndStoreIdAndProductId(INVENTORY_ID, STORE_ID, PRODUCT_ID)).thenReturn(SAVED_INVENTORY);
-        RequestBuilder requestBuilder = get(INVENTORY_URL + INVENTORY_ID).principal(principal);
+    public void should_success_to_find_existing_product_loading() throws Exception {
+        should_success_to_create_product_loading();
+        when(productLoadingRepository.getByIdAndStoreIdAndProductId(PRODUCT_LOADING_ID, STORE_ID, PRODUCT_ID)).thenReturn(SAVED_PRODUCT_LOADING);
+        RequestBuilder requestBuilder = get(PRODUCT_LOADING_URL + PRODUCT_LOADING_ID).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_INVENTORY)))
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_PRODUCT_LOADING)))
                 .andReturn();
     }
 
     @Test
-    public void should_success_to_get_inventory_list() throws Exception {
-        when(inventoryRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_INVENTORY));
+    public void should_success_to_get_product_loading_list() throws Exception {
+        when(productLoadingRepository.getAllByStoreIdAndProductId(STORE_ID, PRODUCT_ID)).thenReturn(Arrays.asList(SAVED_PRODUCT_LOADING));
 
-        RequestBuilder requestBuilder = get(INVENTORY_URL).principal(principal);
+        RequestBuilder requestBuilder = get(PRODUCT_LOADING_URL).principal(principal);
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_INVENTORY))))
+                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(SAVED_PRODUCT_LOADING))))
                 .andReturn();
     }
 }

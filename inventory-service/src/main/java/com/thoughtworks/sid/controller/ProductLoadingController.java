@@ -1,8 +1,8 @@
 package com.thoughtworks.sid.controller;
 
-import com.thoughtworks.sid.domain.Inventory;
+import com.thoughtworks.sid.domain.ProductLoading;
 import com.thoughtworks.sid.domain.Store;
-import com.thoughtworks.sid.repository.InventoryRepository;
+import com.thoughtworks.sid.repository.ProductLoadingRepository;
 import com.thoughtworks.sid.repository.StoreRepository;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,23 +18,23 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/stores/{storeId}/products/{productId}/inventories")
-public class ProductInventoryController {
+@RequestMapping(value = "/api/stores/{storeId}/products/{productId}/loadings")
+public class ProductLoadingController {
 
     @Autowired
-    InventoryRepository inventoryRepository;
+    ProductLoadingRepository productLoadingRepository;
 
     @Autowired
     StoreRepository storeRepository;
 
-    @ApiOperation(value = "创建库存单")
+    @ApiOperation(value = "创建入库单")
     @RequestMapping(value = "/",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Store> createStore(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
                                              @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
-                                             @RequestBody Inventory inventory,
+                                             @RequestBody ProductLoading productLoading,
                                              UriComponentsBuilder uriBuilder,
                                              Principal principal) {
         if (principal == null) {
@@ -46,17 +46,17 @@ public class ProductInventoryController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        inventory.setStoreId(Long.valueOf(storeId));
-        inventory.setProductId(Long.valueOf(productId));
-        Inventory savedInventory = inventoryRepository.save(inventory);
+        productLoading.setStoreId(Long.valueOf(storeId));
+        productLoading.setProductId(Long.valueOf(productId));
+        ProductLoading savedProductLoading = productLoadingRepository.save(productLoading);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriBuilder.path("/api/stores/{storeId}/products/{productId}/inventories/{id}")
-                .buildAndExpand(savedInventory.getStoreId(), savedInventory.getProductId(), savedInventory.getId())
+        headers.setLocation(uriBuilder.path("/api/stores/{storeId}/products/{productId}/loadings/{id}")
+                .buildAndExpand(savedProductLoading.getStoreId(), savedProductLoading.getProductId(), savedProductLoading.getId())
                 .toUri());
-        return new ResponseEntity(savedInventory, headers, HttpStatus.CREATED);
+        return new ResponseEntity(savedProductLoading, headers, HttpStatus.CREATED);
     }
 
-    @ApiOperation(value = "获取库存单列表")
+    @ApiOperation(value = "获取入库单列表")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity getStore(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
                                    @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
@@ -70,11 +70,11 @@ public class ProductInventoryController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        List<Inventory> allInventories = inventoryRepository.getAllByStoreIdAndProductId(Long.valueOf(storeId), Long.valueOf(productId));
+        List<ProductLoading> allInventories = productLoadingRepository.getAllByStoreIdAndProductId(Long.valueOf(storeId), Long.valueOf(productId));
         return new ResponseEntity(allInventories, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "获取库存信息")
+    @ApiOperation(value = "获取入库单信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Store> getStore(@ApiParam(required = true, name = "storeId", value = "storeId") @PathVariable String storeId,
                                           @ApiParam(required = true, name = "productId", value = "productId") @PathVariable String productId,
@@ -89,7 +89,7 @@ public class ProductInventoryController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
 
-        Inventory inventory = inventoryRepository.getByIdAndStoreIdAndProductId(Long.valueOf(id), Long.valueOf(storeId), Long.valueOf(productId));
-        return new ResponseEntity(inventory, inventory != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+        ProductLoading productLoading = productLoadingRepository.getByIdAndStoreIdAndProductId(Long.valueOf(id), Long.valueOf(storeId), Long.valueOf(productId));
+        return new ResponseEntity(productLoading, productLoading != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }
