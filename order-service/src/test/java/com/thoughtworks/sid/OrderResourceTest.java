@@ -35,13 +35,15 @@ import java.util.List;
 public class OrderResourceTest {
 
     private final Long ORDER_ID = 1L;
+    private final Long ORDER_ITEM_ID = 1L;
     private final Long PRODUCT_PRICE_ID = 1L;
     private final Long PRODUCT_UNLOADING_ID = 1L;
     private final String OWNER = "Sid";
     private final String ORDER_URL = "/api/orders/";
     private final OrderItem ORDER_ITEM = new OrderItem(PRODUCT_PRICE_ID, PRODUCT_UNLOADING_ID, 2);
+    private final OrderItem SAVED_ORDER_ITEM = new OrderItem(ORDER_ITEM_ID, PRODUCT_PRICE_ID, PRODUCT_UNLOADING_ID, 2);
     private final Order VALID_ORDER = new Order(OWNER, 1000.0, Collections.singletonList(ORDER_ITEM));
-    private final Order SAVED_ORDER = new Order(ORDER_ID, OWNER, 1000.0, Collections.singletonList(ORDER_ITEM));
+    private final Order SAVED_ORDER = new Order(ORDER_ID, OWNER, 1000.0, Collections.singletonList(SAVED_ORDER_ITEM));
 
     private MockMvc mvc;
 
@@ -132,5 +134,25 @@ public class OrderResourceTest {
         mvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(stores)));
+    }
+
+    @Test
+    public void should_success_to_find_order_items() throws Exception {
+        when(orderRepository.getByCustomerAndId(OWNER, ORDER_ID)).thenReturn(SAVED_ORDER);
+        RequestBuilder requestBuilder = get(ORDER_URL + ORDER_ID + "/items").principal(principal);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_ORDER.getOrderItemList())))
+                .andReturn();
+    }
+
+    @Test
+    public void should_success_to_find_order_item() throws Exception {
+        when(orderRepository.getByCustomerAndId(OWNER, ORDER_ID)).thenReturn(SAVED_ORDER);
+        RequestBuilder requestBuilder = get(ORDER_URL + ORDER_ID + "/items/" + ORDER_ITEM_ID).principal(principal);
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(SAVED_ORDER_ITEM)))
+                .andReturn();
     }
 }

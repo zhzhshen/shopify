@@ -64,8 +64,8 @@
 	+ [x] POST `/orders` 30min 52min
 	+ [x] GET `/orders` 10min 7min
 	+ [x] GET `/orders/{order_id}` 10min 3min
-	+ GET `/orders/{order_id}/items` 10min
-	+ GET `/orders/{order_id}/items/{item_id}` 10min
+	+ [x] GET `/orders/{order_id}/items` 10min 3min
+	+ [x] GET `/orders/{order_id}/items/{item_id}` 10min 6min
 	+ POST `/orders/{order_id}/payment` 15min
 	+ GET `/orders/{order_id}/payment` 10min
 	+ POST `/orders/{order_id}/logistic-order` 15min

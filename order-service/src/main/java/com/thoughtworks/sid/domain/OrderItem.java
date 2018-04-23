@@ -36,6 +36,13 @@ public class OrderItem {
         this.amount = amount;
     }
 
+    public OrderItem(Long id, Long productPriceId, Long unloadingId, Integer amount) {
+        this.id = id;
+        this.productPriceId = productPriceId;
+        this.unloadingId = unloadingId;
+        this.amount = amount;
+    }
+
     public Long getId() {
         return id;
     }

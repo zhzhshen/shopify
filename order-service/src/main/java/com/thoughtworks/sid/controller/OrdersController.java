@@ -1,6 +1,5 @@
 package com.thoughtworks.sid.controller;
 
-import com.fasterxml.jackson.databind.type.CollectionType;
 import com.thoughtworks.sid.domain.Order;
 import com.thoughtworks.sid.domain.OrderItem;
 import com.thoughtworks.sid.repository.OrderRepository;
@@ -18,7 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/orders")
@@ -66,5 +65,31 @@ public class OrdersController {
         }
         Order order = orderRepository.getByCustomerAndId(principal.getName(), Long.valueOf(id));
         return new ResponseEntity(order, order != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "获取OrderItems列表")
+    @RequestMapping(value = "/{id}/items", method = RequestMethod.GET)
+    public ResponseEntity<List<OrderItem>> getOrderItems(@ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
+                                                         Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+        Order order = orderRepository.getByCustomerAndId(principal.getName(), Long.valueOf(id));
+        List<OrderItem> orderItemList = order.getOrderItemList();
+        return new ResponseEntity(orderItemList, orderItemList != null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    }
+
+    @ApiOperation(value = "获取OrderItems")
+    @RequestMapping(value = "/{id}/items/{itemId}", method = RequestMethod.GET)
+    public ResponseEntity<List<OrderItem>> getOrderItem(@ApiParam(required = true, name = "id", value = "id") @PathVariable String id,
+                                                        @ApiParam(required = true, name = "itemId", value = "itemId") @PathVariable String itemId,
+                                                         Principal principal) {
+        if (principal == null) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+        Order order = orderRepository.getByCustomerAndId(principal.getName(), Long.valueOf(id));
+        List<OrderItem> orderItemList = order.getOrderItemList();
+        Optional<OrderItem> orderItem = orderItemList.stream().filter(item -> itemId.equals(item.getId().toString())).findFirst();
+        return new ResponseEntity(orderItem.orElseGet(null), orderItem.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }
