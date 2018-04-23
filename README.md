@@ -39,8 +39,9 @@
 	+ [x] POST `/stores` 15min 27min (mock principal)
 	+ [x] GET `/stores` 10min 6min
 	+ [x] GET `/stores/{store_id}` 10min 4min
-	+ POST `/stores/{store_id}/products/{prodcut_id}/inventories` 15min
-	+ GET `/stores/{store_id}/products/{prodcut_id}/inventories/{inv_id}` 10min
+	+ [x] POST `/stores/{store_id}/products/{prodcut_id}/inventories` 15min 21min(nested resource)
+	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/inventories` 10min 8min
+	+ [x] GET `/stores/{store_id}/products/{prodcut_id}/inventories/{inv_id}` 10min 5min
 	+ POST `/stores/{store_id}/products/{prodcut_id}/loadings` 15min
 	+ GET `/stores/{store_id}/products/{prodcut_id}/loadings` 10min
 	+ GET `/stores/{store_id}/products/{prodcut_id}/loadings/{loading_id}` 10min
