@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service-deployment
+  labels:
+    app: product-service-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: product-service-deployment
+      labels:
+        app: product-service-deployment
+    spec:
+      containers:
+        - name: product-service-db
+          image: mysql:5.7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: 'root'
+            - name: MYSQL_DATABASE
+              value: 'product_service'
+        - name: product-service
+          image: shopify_product-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+  selector:
+    matchLabels:
+      app: product-service-deployment

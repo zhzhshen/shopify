@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+spec:
+  selector:
+    app: product-service-deployment
+  ports:
+    - port: 8081
+      nodePort: 30081
+  type: NodePort

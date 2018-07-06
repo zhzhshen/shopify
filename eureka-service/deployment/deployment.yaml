@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka
+  labels:
+    app: eureka-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: eureka
+      labels:
+        app: eureka-service
+    spec:
+      containers:
+      - name: eureka-service
+        image: eureka-service
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8761
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: eureka-service
